@@ -1,0 +1,50 @@
+<div class="card">
+
+  <h2>Liste des transactions</h2>
+
+  <table border="1">
+
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Libelle</th>
+        <th>Montant</th>
+        <th>Motif</th>
+        <th>Type</th>
+        <th>Categorie</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      @for (t of transactions; track t.id) 
+      <tr>
+
+        <td>{{ t.id }}</td>
+        <td>{{ t.libelle }}</td>
+
+
+        <td [style.color]="t.type == 'credit' ? 'green' : 'red'">
+          {{ t.montant }}
+        </td>
+
+        <td>{{ t.motif }}</td>
+        <td>{{ t.type }}</td>
+        <td [style.color]="t.categorie == 'salaire' ? 'green' ?  :t.categorie=='nouriture'? "rouge": 'bleu'">
+          {{ t.montant }} >{{ t.categorie }}</td>
+        <td>
+          <button (click)="voirDetails(t.id)">
+            Voir détails
+          </button>
+        </td>
+
+      </tr>
+
+
+
+    </tbody>
+
+  </table>
+
+</div>

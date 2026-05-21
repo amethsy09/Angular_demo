@@ -1,0 +1,79 @@
+/* Container principal */
+.card {
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
+  overflow-x: auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Titre */
+.card h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+/* Header */
+thead {
+  background-color: #f4f6f8;
+}
+
+th {
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+  color: #555;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Cells */
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Hover effect */
+tbody tr:hover {
+  background-color: #f9fafc;
+  transition: 0.2s ease;
+}
+
+/* Button */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background-color: #1e4fd6;
+}
+
+/* Montant positif / négatif */
+.credit {
+  color: #16a34a;
+  /* vert */
+  font-weight: bold;
+}
+
+.debit {
+  color: #dc2626;
+  /* rouge */
+  font-weight: bold;
+}
