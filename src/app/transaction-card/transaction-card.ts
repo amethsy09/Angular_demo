@@ -1,4 +1,4 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, signal,effect} from '@angular/core';
 
  interface Transaction {
   id: number;
@@ -110,4 +110,36 @@ export class TransactionCard {
     }
     return "Non éligible";
   });
+  // Ajoutez un formulaire simple (ou juste un bouton pour l'instant) pour simuler l'ajout d'une nouvelle transaction via this.transactions.update(t => [...t, nouvelleTransaction]).
+  ajouterTransaction() {
+    const nouvelleTransaction: Transaction = {
+      id: this.transactions().length + 1,
+      libelle: 'Nouvelle transaction',
+      montant: 20000,
+      motif: 'achat',
+      type: 'debit',
+      categorie: 'nouriture'
+    };
+    this.transactions.update(t => [...t, nouvelleTransaction]);
+  }
+  // Dans le constructor() de votre composant, déclarez un effect(). Demandez-lui d'afficher un console.log() personnalisé à chaque fois qu'une transaction est ajoutée.
+  constructor() {
+    const savedTransactions =
+    localStorage.getItem('transactions');
+
+  if (savedTransactions) {
+    this.transactions.set(
+      JSON.parse(savedTransactions)
+    );
+  }
+    effect(() => {
+      console.log(`Nombre de transactions : ${this.transactions().length}`);
+      localStorage.setItem(
+      'transactions',
+      JSON.stringify(this.transactions())
+    );
+    });
+  }
+ 
+
 }
