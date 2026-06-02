@@ -2,7 +2,7 @@
 
   <h2>Liste des transactions</h2>
 
- 
+
   <div class="resume">
 
     <p>
@@ -32,7 +32,7 @@
 
   </div>
 
-  
+
   <div class="filtres">
 
     <button (click)="filtreActif.set('tous'); pageCourante.set(1)">
@@ -49,23 +49,54 @@
 
   </div>
 
-  
+
   <div class="filter">
-    <input
-      type="text"
-      placeholder="Filtrer par libellé"
-      (input)="libelleRecherche.set($event.target.value)"
-    >
+    <input type="text" placeholder="Filtrer par libellé" (input)="libelleRecherche.set($event.target.value)">
   </div>
+ <div class="btn-modal">
+  <button (click)="ouvrirModal()">
+    Ajouter une transaction
+  </button>
+ </div>
+  @if (isModalOpen()) {
+  <div class="modal-overlay" (click)="isModalOpen.set(false)">
 
+    <div class="modal" (click)="$event.stopPropagation()">
 
-  <div class="addTrans">
-    <button (click)="ajouterTransaction()">
-      Ajouter une transaction
-    </button>
+      <h3>Ajouter une transaction</h3>
+
+      <input type="text" placeholder="Libellé" [value]="libelleForm()" (input)="libelleForm.set($event.target.value)">
+
+      <input type="number" placeholder="Montant" [value]="montantForm()"
+        (input)="montantForm.set($event.target.valueAsNumber)">
+
+      <input type="text" placeholder="Motif" [value]="motifForm()" (input)="motifForm.set($event.target.value)">
+
+      <select [value]="typeForm()" (change)="onTypeChange($event)">
+        <option value="credit">Crédit</option>
+        <option value="debit">Débit</option>
+      </select>
+
+      <select [value]="categorieForm()" (change)="onCategorieChange($event)">
+        <option value="salaire">Salaire</option>
+        <option value="nouriture">Nourriture</option>
+        <option value="transport">Transport</option>
+      </select>
+
+      <div class="actions">
+         <button (click)="isModalOpen.set(false)">
+          Annuler
+        </button>
+        <button (click)="ajouterTransaction(); isModalOpen.set(false)">
+          Ajouter
+        </button>
+      </div>
+
+    </div>
   </div>
+  }
 
-  
+
   <table border="1">
 
     <thead>
@@ -84,45 +115,43 @@
 
       @for (t of transactionsPaginees(); track t.id) {
 
-        <tr>
+      <tr>
 
-          <td>{{ t.id }}</td>
-          <td>{{ t.libelle }}</td>
+        <td>{{ t.id }}</td>
+        <td>{{ t.libelle }}</td>
 
-          <td>
-            <span [style.color]="t.type === 'credit' ? 'green' : 'red'">
-              {{ t.type === 'credit' ? '+' : '-' }}{{ t.montant }} FCFA
-            </span>
-          </td>
+        <td>
+          <span [style.color]="t.type === 'credit' ? 'green' : 'red'">
+            {{ t.type === 'credit' ? '+' : '-' }}{{ t.montant }} FCFA
+          </span>
+        </td>
 
-          <td>{{ t.motif }}</td>
-          <td>{{ t.type }}</td>
+        <td>{{ t.motif }}</td>
+        <td>{{ t.type }}</td>
 
-          <td [style.color]="
+        <td [style.color]="
               t.categorie === 'salaire'
                 ? 'green'
                 : t.categorie === 'nouriture'
                   ? 'red'
                   : 'blue'
             ">
-            {{ t.categorie }}
-          </td>
-         <td>
+          {{ t.categorie }}
+        </td>
+        <td>
           <button (click)="supprimerTransaction(t.id)">Supprimer</button>
-         </td>
-        </tr>
+        </td>
+      </tr>
       }
 
     </tbody>
 
   </table>
 
-  
+
   <div class="pagination">
 
-    <button
-      (click)="precedente()"
-      [disabled]="boutonPrecedentDesactive()">
+    <button (click)="precedente()" [disabled]="boutonPrecedentDesactive()">
       Précédente
     </button>
 
@@ -130,9 +159,7 @@
       Page {{ pageCourante() }} / {{ totalPages() }}
     </span>
 
-    <button
-      (click)="suivante()"
-      [disabled]="boutonSuivantDesactive()">
+    <button (click)="suivante()" [disabled]="boutonSuivantDesactive()">
       Suivante
     </button>
 
