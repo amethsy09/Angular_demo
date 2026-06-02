@@ -5,7 +5,8 @@
   <div class="resume">
     <p><strong>Total des entrées :</strong> {{ totalEntrees() }} FCFA</p>
     <p><strong>Total des sorties :</strong> {{ totalSorties() }} FCFA</p>
-    <p><strong>Solde actuel :</strong> {{ soldeActuel() }} FCFA</p>
+    <p><strong>Solde actuel :</strong> <span [style.color]="soldeActuel() >= 0 ? 'green' : 'red'">{{ soldeActuel()
+        }}</span> FCFA</p>
     <p>
       <strong>Score crédit :</strong>
       <span [style.color]="scoreCredit() === 'Éligible au micro-crédit' ? 'green' : 'red'">
@@ -47,11 +48,22 @@
 
         <td>{{ t.id }}</td>
         <td>{{ t.libelle }}</td>
+        @if (t.type === 'credit') {
 
+        <span style="color: green;">
+          + {{ t.montant }} FCFA
+        </span>
 
-        <td [style.color]="t.type == 'credit' ? 'green' : 'red'">
+        } @else {
+
+        <span style="color: red;">
+          - {{ t.montant }} FCFA
+        </span>
+
+        }
+        <!-- <td [style.color]="t.type == 'credit' ? 'green' : 'red'">
           {{ t.montant }}
-        </td>
+        </td> -->
 
         <td>{{ t.motif }}</td>
         <td>{{ t.type }}</td>
