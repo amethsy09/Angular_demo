@@ -76,6 +76,7 @@
         <th>Motif</th>
         <th>Type</th>
         <th>Catégorie</th>
+        <th>Actions</th>
       </tr>
     </thead>
 
@@ -106,9 +107,10 @@
             ">
             {{ t.categorie }}
           </td>
-
+         <td>
+          <button (click)="supprimerTransaction(t.id)">Supprimer</button>
+         </td>
         </tr>
-
       }
 
     </tbody>

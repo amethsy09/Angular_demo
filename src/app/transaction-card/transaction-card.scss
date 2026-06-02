@@ -125,3 +125,23 @@ button:hover {
   text-align: right;
   margin-bottom: 15px;
 }
+.pagination {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 10px;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.filter input{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 20px;
+ 
+}
+
+
