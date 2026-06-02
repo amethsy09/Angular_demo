@@ -1,10 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { TransactionCard } from './transaction-card/transaction-card';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,TransactionCard],
+  imports: [TransactionCard],
   standalone:true,
   templateUrl: './app.html',
   styleUrl: './app.scss',

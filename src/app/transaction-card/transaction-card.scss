@@ -77,3 +77,47 @@ button:hover {
   /* rouge */
   font-weight: bold;
 }
+.filtres {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.filtres button {
+  min-width: 100px;
+  font-weight: 600;
+}
+.resume {
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.resume p {
+  margin: 8px 0;
+  font-size: 15px;
+}
+.btn-tout {
+  background-color: #6b7280;
+}
+
+.btn-tout:hover {
+  background-color: #4b5563;
+}
+
+.btn-credit {
+  background-color: #16a34a;
+}
+
+.btn-credit:hover {
+  background-color: #15803d;
+}
+
+.btn-debit {
+  background-color: #dc2626;
+}
+
+.btn-debit:hover {
+  background-color: #b91c1c;
+}

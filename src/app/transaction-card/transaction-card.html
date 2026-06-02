@@ -2,6 +2,31 @@
 
   <h2>Liste des transactions</h2>
 
+  <div class="resume">
+    <p><strong>Total des entrées :</strong> {{ totalEntrees() }} FCFA</p>
+    <p><strong>Total des sorties :</strong> {{ totalSorties() }} FCFA</p>
+    <p><strong>Solde actuel :</strong> {{ soldeActuel() }} FCFA</p>
+    <p>
+      <strong>Score crédit :</strong>
+      <span [style.color]="scoreCredit() === 'Éligible au micro-crédit' ? 'green' : 'red'">
+        {{ scoreCredit() }}
+      </span>
+    </p>
+    <!-- Filtres -->
+    <div class="filtres">
+      <button class="btn-tout" (click)="filtreActif.set('TOUT')">
+        Toutes
+      </button>
+
+      <button class="btn-credit" (click)="filtreActif.set('CREDIT')">
+        Crédits
+      </button>
+
+      <button class="btn-debit" (click)="filtreActif.set('DEBIT')">
+        Débits
+      </button>
+    </div>
+  </div>
   <table border="1">
 
     <thead>
@@ -12,13 +37,12 @@
         <th>Motif</th>
         <th>Type</th>
         <th>Categorie</th>
-        <th>Action</th>
       </tr>
     </thead>
 
     <tbody>
 
-      @for (t of transactions; track t.id) 
+      @for (t of transactionsFiltrees(); track t.id){
       <tr>
 
         <td>{{ t.id }}</td>
@@ -31,18 +55,19 @@
 
         <td>{{ t.motif }}</td>
         <td>{{ t.type }}</td>
-        <td [style.color]="t.categorie == 'salaire' ? 'green' ?  :t.categorie=='nouriture'? "rouge": 'bleu'">
-          {{ t.montant }} >{{ t.categorie }}</td>
-        <td>
-          <button (click)="voirDetails(t.id)">
-            Voir détails
-          </button>
+        <td [style.color]="
+    t.categorie == 'salaire'
+      ? 'green'
+      : t.categorie == 'nouriture'
+        ? 'red'
+        : 'blue'
+  ">
+          {{ t.categorie }}
         </td>
 
+
       </tr>
-
-
-
+      }
     </tbody>
 
   </table>
