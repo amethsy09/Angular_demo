@@ -2,35 +2,70 @@
 
   <h2>Liste des transactions</h2>
 
+ 
   <div class="resume">
-    <p><strong>Total des entrées :</strong> {{ totalEntrees() }} FCFA</p>
-    <p><strong>Total des sorties :</strong> {{ totalSorties() }} FCFA</p>
-    <p><strong>Solde actuel :</strong> <span [style.color]="soldeActuel() >= 0 ? 'green' : 'red'">{{ soldeActuel()
-        }}</span> FCFA</p>
+
+    <p>
+      <strong>Total des entrées :</strong>
+      {{ totalEntrees() }} FCFA
+    </p>
+
+    <p>
+      <strong>Total des sorties :</strong>
+      {{ totalSorties() }} FCFA
+    </p>
+
+    <p>
+      <strong>Solde actuel :</strong>
+      <span [style.color]="soldeActuel() >= 0 ? 'green' : 'red'">
+        {{ soldeActuel() }}
+      </span>
+      FCFA
+    </p>
+
     <p>
       <strong>Score crédit :</strong>
       <span [style.color]="scoreCredit() === 'Éligible au micro-crédit' ? 'green' : 'red'">
         {{ scoreCredit() }}
       </span>
     </p>
-    <!-- Filtres -->
-    <div class="filtres">
-      <button class="btn-tout" (click)="filtreActif.set('TOUT')">
-        Toutes
-      </button>
 
-      <button class="btn-credit" (click)="filtreActif.set('CREDIT')">
-        Crédits
-      </button>
-
-      <button class="btn-debit" (click)="filtreActif.set('DEBIT')">
-        Débits
-      </button>
-    </div>
-    <div class="addTrans">
-      <button (click)="ajouterTransaction()">Ajouter une transaction</button>
-    </div>
   </div>
+
+  
+  <div class="filtres">
+
+    <button (click)="filtreActif.set('tous'); pageCourante.set(1)">
+      Toutes
+    </button>
+
+    <button (click)="filtreActif.set('CREDIT'); pageCourante.set(1)">
+      Crédits
+    </button>
+
+    <button (click)="filtreActif.set('DEBIT'); pageCourante.set(1)">
+      Débits
+    </button>
+
+  </div>
+
+  
+  <div class="filter">
+    <input
+      type="text"
+      placeholder="Filtrer par libellé"
+      (input)="libelleRecherche.set($event.target.value)"
+    >
+  </div>
+
+
+  <div class="addTrans">
+    <button (click)="ajouterTransaction()">
+      Ajouter une transaction
+    </button>
+  </div>
+
+  
   <table border="1">
 
     <thead>
@@ -40,51 +75,65 @@
         <th>Montant</th>
         <th>Motif</th>
         <th>Type</th>
-        <th>Categorie</th>
+        <th>Catégorie</th>
       </tr>
     </thead>
 
     <tbody>
 
-      @for (t of transactionsFiltrees(); track t.id){
-      <tr>
+      @for (t of transactionsPaginees(); track t.id) {
 
-        <td>{{ t.id }}</td>
-        <td>{{ t.libelle }}</td>
-        @if (t.type === 'credit') {
+        <tr>
 
-        <span style="color: green;">
-          + {{ t.montant }} FCFA
-        </span>
+          <td>{{ t.id }}</td>
+          <td>{{ t.libelle }}</td>
 
-        } @else {
+          <td>
+            <span [style.color]="t.type === 'credit' ? 'green' : 'red'">
+              {{ t.type === 'credit' ? '+' : '-' }}{{ t.montant }} FCFA
+            </span>
+          </td>
 
-        <span style="color: red;">
-          - {{ t.montant }} FCFA
-        </span>
+          <td>{{ t.motif }}</td>
+          <td>{{ t.type }}</td>
 
-        }
-        <!-- <td [style.color]="t.type == 'credit' ? 'green' : 'red'">
-          {{ t.montant }}
-        </td> -->
+          <td [style.color]="
+              t.categorie === 'salaire'
+                ? 'green'
+                : t.categorie === 'nouriture'
+                  ? 'red'
+                  : 'blue'
+            ">
+            {{ t.categorie }}
+          </td>
 
-        <td>{{ t.motif }}</td>
-        <td>{{ t.type }}</td>
-        <td [style.color]="
-    t.categorie == 'salaire'
-      ? 'green'
-      : t.categorie == 'nouriture'
-        ? 'red'
-        : 'blue'
-  ">
-          {{ t.categorie }}
-        </td>
+        </tr>
 
-
-      </tr>
       }
+
     </tbody>
 
   </table>
+
+  
+  <div class="pagination">
+
+    <button
+      (click)="precedente()"
+      [disabled]="boutonPrecedentDesactive()">
+      Précédente
+    </button>
+
+    <span>
+      Page {{ pageCourante() }} / {{ totalPages() }}
+    </span>
+
+    <button
+      (click)="suivante()"
+      [disabled]="boutonSuivantDesactive()">
+      Suivante
+    </button>
+
+  </div>
 
 </div>
