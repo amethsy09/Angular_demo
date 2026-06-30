@@ -1,6 +1,7 @@
 import { Component, computed, signal, effect } from '@angular/core';
 import { Status, StatusBadge } from '../status-badge/status-badge';
 import { FilterBar } from '../filter-bar/filter-bar';
+import { UserProfileComponent } from '../user-profile/user-profile';
 
 interface Transaction {
   id: number;
@@ -14,7 +15,7 @@ interface Transaction {
 @Component({
   selector: 'app-transaction-card',
   standalone: true,
-  imports: [StatusBadge, FilterBar],
+  imports: [StatusBadge, FilterBar,UserProfileComponent],
   templateUrl: './transaction-card.html',
   styleUrl: './transaction-card.scss',
 })

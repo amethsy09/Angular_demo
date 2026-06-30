@@ -51,7 +51,11 @@
     </button>
 
   </div>
+<div class="min-h-screen bg-slate-100 flex items-center justify-center">
 
+  <app-user-profile></app-user-profile>
+
+</div>
 
  <div class="filter mb-4">
   <app-filter-bar
@@ -63,6 +67,7 @@
       Ajouter une transaction
     </button>
   </div>
+  
   @if (isModalOpen()) {
   <div class="modal-overlay" (click)="isModalOpen.set(false)">
 
