@@ -1,4 +1,6 @@
 import { Component, computed, signal, effect } from '@angular/core';
+import { Status, StatusBadge } from '../status-badge/status-badge';
+import { FilterBar } from '../filter-bar/filter-bar';
 
 interface Transaction {
   id: number;
@@ -12,17 +14,23 @@ interface Transaction {
 @Component({
   selector: 'app-transaction-card',
   standalone: true,
+  imports: [StatusBadge, FilterBar],
   templateUrl: './transaction-card.html',
   styleUrl: './transaction-card.scss',
 })
 export class TransactionCard {
+  status = Status.EN_ATTENTE;
+  Status = Status
 
+  onChangeStatus(newStatus: Status) {
+    this.status = newStatus;
+  }
   pageCourante = signal(1);
   transactionsParPage = 5;
   isModalOpen = signal(false);
   idrecherche = signal(0);
   filtreActif = signal('tous');
-  libelleRecherche = signal('');
+  searchQuery = signal('');
   libelleForm = signal('');
   montantForm = signal(0);
   motifForm = signal('');
@@ -51,7 +59,7 @@ export class TransactionCard {
     }
 
     // filtre libellé
-    const libelle = this.libelleRecherche().toLowerCase().trim();
+    const libelle = this.searchQuery().toLowerCase().trim();
 
     if (libelle) {
       data = data.filter(t =>

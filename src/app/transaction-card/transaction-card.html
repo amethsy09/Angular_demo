@@ -2,7 +2,7 @@
 
   <h2>Liste des transactions</h2>
 
-
+  
   <div class="resume">
 
     <p>
@@ -29,7 +29,10 @@
         {{ scoreCredit() }}
       </span>
     </p>
-
+     <p>
+      <strong>Statut :</strong>
+      <app-status-badge [status]="status" (onChangeStatus)="onChangeStatus($event)"></app-status-badge>
+    </p>
   </div>
 
 
@@ -50,14 +53,16 @@
   </div>
 
 
-  <div class="filter">
-    <input type="text" placeholder="Filtrer par libellé" (input)="libelleRecherche.set($event.target.value)">
+ <div class="filter mb-4">
+  <app-filter-bar
+    [(searchQuery)]="searchQuery">
+  </app-filter-bar>
+</div>
+  <div class="btn-modal">
+    <button (click)="ouvrirModal()">
+      Ajouter une transaction
+    </button>
   </div>
- <div class="btn-modal">
-  <button (click)="ouvrirModal()">
-    Ajouter une transaction
-  </button>
- </div>
   @if (isModalOpen()) {
   <div class="modal-overlay" (click)="isModalOpen.set(false)">
 
@@ -84,7 +89,7 @@
       </select>
 
       <div class="actions">
-         <button (click)="isModalOpen.set(false)">
+        <button (click)="isModalOpen.set(false)">
           Annuler
         </button>
         <button (click)="ajouterTransaction(); isModalOpen.set(false)">
