@@ -1,0 +1,81 @@
+<form
+  [formGroup]="transferForm"
+  (ngSubmit)="onSubmit()"
+  class="max-w-lg mx-auto p-6 bg-white rounded-xl shadow space-y-4">
+
+  <h2 class="text-2xl font-bold">
+    Effectuer un virement
+  </h2>
+
+  <p class="text-green-600 font-semibold">
+    Solde disponible : {{ balance() }} FCFA
+  </p>
+
+  <!-- Compte -->
+
+  <div>
+
+    <label class="block mb-1">
+      Compte cible
+    </label>
+
+    <input
+      formControlName="compteCible"
+      class="w-full border rounded-lg p-2">
+
+    @if (transferForm.get('compteCible')?.errors?.['required']
+        && transferForm.get('compteCible')?.touched) {
+
+      <p class="text-red-500">
+        Le compte est obligatoire.
+      </p>
+
+    }
+
+    @if ((transferForm.get('compteCible')?.errors?.['minlength']
+        || transferForm.get('compteCible')?.errors?.['maxlength'])
+        && transferForm.get('compteCible')?.touched) {
+
+      <p class="text-red-500">
+        Le numéro doit contenir exactement 12 caractères.
+      </p>
+
+    }
+
+  </div>
+
+  <!-- Montant -->
+
+  <div>
+
+    <label class="block mb-1">
+      Montant
+    </label>
+
+    <input
+      type="number"
+      formControlName="montant"
+      class="w-full border rounded-lg p-2">
+
+  </div>
+
+  @if (transferForm.errors?.['soldeInsuffisant']) {
+
+    <div class="bg-red-100 text-red-700 p-3 rounded-lg">
+
+      Solde insuffisant pour effectuer ce virement.
+
+    </div>
+
+  }
+
+  <button
+    type="submit"
+    [disabled]="transferForm.invalid"
+    class="bg-blue-600 text-white px-5 py-2 rounded disabled:bg-gray-400">
+
+    Envoyer le virement
+
+  </button>
+
+</form>

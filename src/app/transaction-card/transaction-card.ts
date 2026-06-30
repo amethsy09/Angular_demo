@@ -2,6 +2,7 @@ import { Component, computed, signal, effect } from '@angular/core';
 import { Status, StatusBadge } from '../status-badge/status-badge';
 import { FilterBar } from '../filter-bar/filter-bar';
 import { UserProfileComponent } from '../user-profile/user-profile';
+import { TransferFormComponent } from '../transfer-form/transfer-form';
 
 interface Transaction {
   id: number;
@@ -15,7 +16,7 @@ interface Transaction {
 @Component({
   selector: 'app-transaction-card',
   standalone: true,
-  imports: [StatusBadge, FilterBar,UserProfileComponent],
+  imports: [StatusBadge, FilterBar,UserProfileComponent,TransferFormComponent],
   templateUrl: './transaction-card.html',
   styleUrl: './transaction-card.scss',
 })
@@ -26,6 +27,7 @@ export class TransactionCard {
   onChangeStatus(newStatus: Status) {
     this.status = newStatus;
   }
+  balance = signal(50000);
   pageCourante = signal(1);
   transactionsParPage = 5;
   isModalOpen = signal(false);
