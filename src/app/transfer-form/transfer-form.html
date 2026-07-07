@@ -1,6 +1,4 @@
-<form
-  [formGroup]="transferForm"
-  (ngSubmit)="onSubmit()"
+<form [formGroup]="transferForm" (ngSubmit)="onSubmit()"
   class="max-w-lg mx-auto p-6 bg-white rounded-xl shadow space-y-4">
 
   <h2 class="text-2xl font-bold">
@@ -19,26 +17,24 @@
       Compte cible
     </label>
 
-    <input
-      formControlName="compteCible"
-      class="w-full border rounded-lg p-2">
+    <input formControlName="compteCible" class="w-full border rounded-lg p-2">
 
     @if (transferForm.get('compteCible')?.errors?.['required']
-        && transferForm.get('compteCible')?.touched) {
+    && transferForm.get('compteCible')?.touched) {
 
-      <p class="text-red-500">
-        Le compte est obligatoire.
-      </p>
+    <p class="error-message">
+      Le compte est obligatoire.
+    </p>
 
     }
 
     @if ((transferForm.get('compteCible')?.errors?.['minlength']
-        || transferForm.get('compteCible')?.errors?.['maxlength'])
-        && transferForm.get('compteCible')?.touched) {
+    || transferForm.get('compteCible')?.errors?.['maxlength'])
+    && transferForm.get('compteCible')?.touched) {
 
-      <p class="text-red-500">
-        Le numéro doit contenir exactement 12 caractères.
-      </p>
+    <p class="error-message">
+      Le numéro doit contenir exactement 12 caractères.
+    </p>
 
     }
 
@@ -52,26 +48,37 @@
       Montant
     </label>
 
-    <input
-      type="number"
-      formControlName="montant"
-      class="w-full border rounded-lg p-2">
+    <input type="number" formControlName="montant" placeholder="Entrez le montant" class="w-full border rounded-lg p-2">
 
   </div>
+  @if (transferForm.get('montant')?.errors?.['required']
+  && transferForm.get('montant')?.touched) {
 
-  @if (transferForm.errors?.['soldeInsuffisant']) {
-
-    <div class="bg-red-100 text-red-700 p-3 rounded-lg">
-
-      Solde insuffisant pour effectuer ce virement.
-
-    </div>
+  <p class="error-message">
+    Le montant est obligatoire.
+  </p>
 
   }
 
-  <button
-    type="submit"
-    [disabled]="transferForm.invalid"
+  @if (transferForm.get('montant')?.errors?.['min']
+  && transferForm.get('montant')?.touched) {
+
+  <p class="error-message">
+    Le montant doit être supérieur à 0.
+  </p>
+
+  }
+  @if (transferForm.errors?.['soldeInsuffisant']) {
+
+  <div class="error-box">
+
+    Solde insuffisant pour effectuer ce virement.
+
+  </div>
+
+  }
+
+  <button type="submit" [disabled]="transferForm.invalid"
     class="bg-blue-600 text-white px-5 py-2 rounded disabled:bg-gray-400">
 
     Envoyer le virement

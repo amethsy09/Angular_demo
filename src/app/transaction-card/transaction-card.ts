@@ -31,6 +31,7 @@ export class TransactionCard {
   pageCourante = signal(1);
   transactionsParPage = 5;
   isModalOpen = signal(false);
+  isTransferModalOpen = signal(false);
   idrecherche = signal(0);
   filtreActif = signal('tous');
   searchQuery = signal('');

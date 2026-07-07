@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, effect } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -17,8 +17,7 @@ import {
 })
 export class TransferFormComponent {
 
-  // Solde reçu du parent
-  balance = input.required<number>();
+  balance = input<number>(0);
 
   transferForm = new FormGroup(
     {
@@ -32,15 +31,30 @@ export class TransferFormComponent {
         Validators.required,
         Validators.min(1)
       ])
-    },
-    {
-      validators: (control) => this.soldeValidator(control)
     }
   );
 
+
+  constructor() {
+
+    effect(() => {
+
+      this.balance();
+
+      this.transferForm.setValidators(
+        (control) => this.soldeValidator(control)
+      );
+
+      this.transferForm.updateValueAndValidity();
+
+    });
+
+  }
+
+
   soldeValidator(control: AbstractControl): ValidationErrors | null {
 
-    const montant = control.get('montant')?.value ?? 0;
+    const montant = Number(control.get('montant')?.value ?? 0);
 
     if (montant > this.balance()) {
       return {
@@ -51,12 +65,15 @@ export class TransferFormComponent {
     return null;
   }
 
+
   onSubmit() {
 
-    if (this.transferForm.valid) {
-      console.log(this.transferForm.value);
+    if (this.transferForm.invalid) {
+      this.transferForm.markAllAsTouched();
+      return;
     }
 
+    console.log(this.transferForm.value);
   }
 
 }

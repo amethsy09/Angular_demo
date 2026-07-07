@@ -20,7 +20,7 @@
       class="w-full border rounded-lg p-2">
 
     @if (profileForm.get('nom')?.invalid && profileForm.get('nom')?.touched) {
-      <p class="text-red-500 text-sm mt-1">
+      <p class="error-message text-sm mt-1">
         Le nom est obligatoire.
       </p>
     }
@@ -40,7 +40,7 @@
       class="w-full border rounded-lg p-2">
 
     @if (profileForm.get('prenom')?.invalid && profileForm.get('prenom')?.touched) {
-      <p class="text-red-500 text-sm mt-1">
+      <p class="error-message text-sm mt-1">
         Le prénom est obligatoire.
       </p>
     }
@@ -60,13 +60,13 @@
       class="w-full border rounded-lg p-2">
 
     @if (profileForm.get('email')?.errors?.['required'] && profileForm.get('email')?.touched) {
-      <p class="text-red-500 text-sm mt-1">
+      <p class="error-message">
         L'email est obligatoire.
       </p>
     }
 
     @if (profileForm.get('email')?.errors?.['email'] && profileForm.get('email')?.touched) {
-      <p class="text-red-500 text-sm mt-1">
+      <p class="error-message">
         Adresse email invalide.
       </p>
     }
