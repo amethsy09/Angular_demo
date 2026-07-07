@@ -3,6 +3,7 @@ import { Status, StatusBadge } from '../status-badge/status-badge';
 import { FilterBar } from '../filter-bar/filter-bar';
 import { UserProfileComponent } from '../user-profile/user-profile';
 import { TransferFormComponent } from '../transfer-form/transfer-form';
+import { BeneficiaryFormComponent } from '../beneficiary-form/beneficiary-form';
 
 interface Transaction {
   id: number;
@@ -16,7 +17,7 @@ interface Transaction {
 @Component({
   selector: 'app-transaction-card',
   standalone: true,
-  imports: [StatusBadge, FilterBar,UserProfileComponent,TransferFormComponent],
+  imports: [StatusBadge, FilterBar,UserProfileComponent,TransferFormComponent,BeneficiaryFormComponent],
   templateUrl: './transaction-card.html',
   styleUrl: './transaction-card.scss',
 })
@@ -32,6 +33,9 @@ export class TransactionCard {
   transactionsParPage = 5;
   isModalOpen = signal(false);
   isTransferModalOpen = signal(false);
+  isBeneficiaryModalOpen = signal(false);
+  isBeneficiairesModalOpen = signal(false);
+  beneficiaires = signal<any[]>([]);
   idrecherche = signal(0);
   filtreActif = signal('tous');
   searchQuery = signal('');
@@ -197,7 +201,23 @@ ouvrirModal() {
   supprimerTransaction(id: number) {
     this.transactions.update(t => t.filter(t => t.id !== id));
   }
+  
+  ajouterBeneficiaire(beneficiaire: any) {
 
+  this.beneficiaires.update(
+    liste => [...liste, beneficiaire]
+  );
+
+
+  console.log(
+    "Bénéficiaire reçu :",
+    beneficiaire
+  );
+
+
+  this.isBeneficiaryModalOpen.set(false);
+
+}
   constructor() {
     const saved = localStorage.getItem('transactions');
 

@@ -68,6 +68,12 @@
     <button (click)="isTransferModalOpen.set(true)">
       Effectuer un virement
     </button>
+    <button (click)="isBeneficiaryModalOpen.set(true)">
+      Ajouter un bénéficiaire
+    </button>
+    <button (click)="isBeneficiairesModalOpen.set(true)">
+    Voir les bénéficiaires
+  </button>
   </div>
   @if (isModalOpen()) {
   <div class="modal-overlay" (click)="isModalOpen.set(false)">
@@ -105,31 +111,128 @@
     </div>
   </div>
   }
-   <!-- modalvirement -->
-    @if (isTransferModalOpen()) {
+  <!-- modalvirement -->
+  @if (isTransferModalOpen()) {
 
-    <div class="modal-overlay" (click)="isTransferModalOpen.set(false)">
+  <div class="modal-overlay" (click)="isTransferModalOpen.set(false)">
 
-      <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal" (click)="$event.stopPropagation()">
 
-        <h3>Effectuer un virement</h3>
+      <h3>Effectuer un virement</h3>
 
-        <app-transfer-form [balance]="soldeActuel()">
-        </app-transfer-form>
+      <app-transfer-form [balance]="soldeActuel()">
+      </app-transfer-form>
 
-        <div class="actions">
-          <button (click)="isTransferModalOpen.set(false)">
-            Fermer
-          </button>
-        </div>
-
+      <div class="actions">
+        <button (click)="isTransferModalOpen.set(false)">
+          Fermer
+        </button>
       </div>
 
     </div>
 
+  </div>
+
+  }
+  <!-- modalBeneficiaire -->
+  @if (isBeneficiaryModalOpen()) {
+
+  <div class="modal-overlay" (click)="isBeneficiaryModalOpen.set(false)">
+
+
+    <div class="modal" (click)="$event.stopPropagation()">
+
+
+      <h3>
+        Enregistrer un bénéficiaire
+      </h3>
+
+
+      <app-beneficiary-form (beneficiaireAjoute)="ajouterBeneficiaire($event)">
+      </app-beneficiary-form>
+
+
+      <div class="actions">
+
+        <button (click)="isBeneficiaryModalOpen.set(false)">
+          Fermer
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+  }
+  @if (isBeneficiairesModalOpen()) {
+
+<div class="modal-overlay"
+(click)="isBeneficiairesModalOpen.set(false)">
+
+
+  <div class="modal"
+  (click)="$event.stopPropagation()">
+
+
+    <h3>
+      Bénéficiaires enregistrés
+    </h3>
+
+
+    @if (beneficiaires().length === 0) {
+
+      <p class="text-gray-500">
+        Aucun bénéficiaire enregistré.
+      </p>
+
     }
 
 
+    @for (b of beneficiaires(); track $index) {
+
+      <div class="p-4 border rounded-xl mb-3 shadow-sm">
+
+
+        <p>
+          <strong>Nom :</strong>
+          {{ b.nom }}
+        </p>
+
+
+        <p>
+          <strong>Type :</strong>
+          {{ b.typeTransfert }}
+        </p>
+
+
+        <p>
+          <strong>Identifiant :</strong>
+          {{ b.identifiantDestination }}
+        </p>
+
+
+      </div>
+
+    }
+
+
+    <div class="actions">
+
+      <button
+      (click)="isBeneficiairesModalOpen.set(false)">
+        Fermer
+      </button>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+}
   <table border="1">
 
     <thead>

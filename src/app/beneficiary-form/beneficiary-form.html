@@ -1,0 +1,76 @@
+<form
+[formGroup]="beneficiaryForm"
+(ngSubmit)="enregistrerBeneficiaire()"
+class="space-y-4 p-6 bg-white rounded-xl shadow">
+<h2 class="text-xl font-bold">
+Enregistrer un bénéficiaire
+</h2>
+<!-- Nom -->
+<div>
+<label>
+Nom du bénéficiaire
+</label>
+<input
+formControlName="nom"
+class="border rounded p-2 w-full"
+/>
+@if(
+beneficiaryForm.get('nom')?.touched &&
+beneficiaryForm.get('nom')?.errors?.['required']
+){
+<p class="error-message">
+Le nom est obligatoire
+</p>
+}
+</div>
+<!-- Type transfert -->
+
+<div>
+<label>
+Type de transfert
+</label>
+<select
+formControlName="typeTransfert"
+class="border rounded p-2 w-full">
+<option value="SENEGAL_CASH">
+Sénégal Cash
+</option>
+<option value="INTERNATIONAL_CRYPTO">
+International Crypto
+</option>
+</select>
+
+</div>
+<!-- Identifiant -->
+<div>
+<label>
+Identifiant destination
+</label>
+<input
+formControlName="identifiantDestination"
+class="border rounded p-2 w-full"
+/>
+@if(
+beneficiaryForm.get('identifiantDestination')?.touched &&
+beneficiaryForm.get('identifiantDestination')?.errors?.['required']
+){
+<p class="error-message">
+L'identifiant est obligatoire pour un transfert crypto
+</p>
+
+}
+@if(
+beneficiaryForm.get('identifiantDestination')?.touched &&
+beneficiaryForm.get('identifiantDestination')?.errors?.['pattern']
+){
+<p class="error-message">
+Format invalide : l'identifiant doit commencer par 0x suivi de 40 caractères hexadécimaux
+</p>
+}
+</div>
+<button
+type="submit"
+class="bg-blue-600 text-white px-6 py-3 rounded-xl">
+Enregistrer
+</button>
+</form>
