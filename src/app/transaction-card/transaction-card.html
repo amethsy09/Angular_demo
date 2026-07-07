@@ -36,7 +36,7 @@
   </div>
 
 
-  <div class="filtres">
+  <!-- <div class="filtres">
 
     <button (click)="filtreActif.set('tous'); pageCourante.set(1)">
       Toutes
@@ -50,31 +50,49 @@
       Débits
     </button>
 
-  </div>
-  <div class="min-h-screen bg-slate-100 flex items-center justify-center">
+  </div> -->
 
-    <app-user-profile></app-user-profile>
+
+  <div class="toolbar mb-6">
+
+    <!-- Recherche -->
+    <div class="search-container">
+      <app-filter-bar [(searchQuery)]="searchQuery">
+      </app-filter-bar>
+    </div>
+
+
+    <!-- Actions -->
+    <div class="actions-container">
+
+      <button class="action-btn primary" (click)="ouvrirModal()">
+        ➕ Transaction
+      </button>
+
+
+      <button class="action-btn" (click)="isProfileModalOpen.set(true)">
+        👤 Profil
+      </button>
+
+
+      <button class="action-btn success" (click)="isTransferModalOpen.set(true)">
+        💸 Virement
+      </button>
+
+
+      <button class="action-btn warning" (click)="isBeneficiaryModalOpen.set(true)">
+        👥 Bénéficiaire
+      </button>
+
+
+      <button class="action-btn info" (click)="isBeneficiairesModalOpen.set(true)">
+        📋 Liste
+      </button>
+
+    </div>
 
   </div>
 
-  <div class="filter mb-4">
-    <app-filter-bar [(searchQuery)]="searchQuery">
-    </app-filter-bar>
-  </div>
-  <div class="btn-modal">
-    <button (click)="ouvrirModal()">
-      Ajouter une transaction
-    </button>
-    <button (click)="isTransferModalOpen.set(true)">
-      Effectuer un virement
-    </button>
-    <button (click)="isBeneficiaryModalOpen.set(true)">
-      Ajouter un bénéficiaire
-    </button>
-    <button (click)="isBeneficiairesModalOpen.set(true)">
-    Voir les bénéficiaires
-  </button>
-  </div>
   @if (isModalOpen()) {
   <div class="modal-overlay" (click)="isModalOpen.set(false)">
     <div class="modal" (click)="$event.stopPropagation()">
@@ -166,31 +184,44 @@
   </div>
 
   }
+  @if (isProfileModalOpen()) {
+
+  <div class="modal-overlay" (click)="isProfileModalOpen.set(false)">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <app-user-profile (profilModifie)="modifierProfil($event)">
+      </app-user-profile>
+      <div class="actions">
+        <button (click)="isProfileModalOpen.set(false)">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  }
   @if (isBeneficiairesModalOpen()) {
 
-<div class="modal-overlay"
-(click)="isBeneficiairesModalOpen.set(false)">
+  <div class="modal-overlay" (click)="isBeneficiairesModalOpen.set(false)">
 
 
-  <div class="modal"
-  (click)="$event.stopPropagation()">
+    <div class="modal" (click)="$event.stopPropagation()">
 
 
-    <h3>
-      Bénéficiaires enregistrés
-    </h3>
+      <h3>
+        Bénéficiaires enregistrés
+      </h3>
 
 
-    @if (beneficiaires().length === 0) {
+      @if (beneficiaires().length === 0) {
 
       <p class="text-gray-500">
         Aucun bénéficiaire enregistré.
       </p>
 
-    }
+      }
 
 
-    @for (b of beneficiaires(); track $index) {
+      @for (b of beneficiaires(); track $index) {
 
       <div class="p-4 border rounded-xl mb-3 shadow-sm">
 
@@ -215,24 +246,23 @@
 
       </div>
 
-    }
+      }
 
 
-    <div class="actions">
+      <div class="actions">
 
-      <button
-      (click)="isBeneficiairesModalOpen.set(false)">
-        Fermer
-      </button>
+        <button (click)="isBeneficiairesModalOpen.set(false)">
+          Fermer
+        </button>
+
+      </div>
+
 
     </div>
 
-
   </div>
 
-</div>
-
-}
+  }
   <table border="1">
 
     <thead>

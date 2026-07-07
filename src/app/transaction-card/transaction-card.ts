@@ -28,13 +28,14 @@ export class TransactionCard {
   onChangeStatus(newStatus: Status) {
     this.status = newStatus;
   }
-  balance = signal(50000);
   pageCourante = signal(1);
   transactionsParPage = 5;
   isModalOpen = signal(false);
   isTransferModalOpen = signal(false);
   isBeneficiaryModalOpen = signal(false);
   isBeneficiairesModalOpen = signal(false);
+  isProfileModalOpen = signal(false);
+  profil = signal<any>(null);
   beneficiaires = signal<any[]>([]);
   idrecherche = signal(0);
   filtreActif = signal('tous');
@@ -216,6 +217,18 @@ ouvrirModal() {
 
 
   this.isBeneficiaryModalOpen.set(false);
+
+}
+modifierProfil(data:any){
+
+  this.profil.set(data);
+
+  console.log(
+    "Profil reçu :",
+    data
+  );
+
+  this.isProfileModalOpen.set(false);
 
 }
   constructor() {

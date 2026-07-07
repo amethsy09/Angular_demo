@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
   styleUrl: './user-profile.scss'
 })
 export class UserProfileComponent {
-
+  profilModifie = output<any>();
   profileForm = new FormGroup({
     nom: new FormControl('', Validators.required),
     prenom: new FormControl('', Validators.required),
@@ -20,7 +20,17 @@ export class UserProfileComponent {
   });
 
   onSubmit() {
-    console.log(this.profileForm.value);
+
+    if (this.profileForm.invalid) {
+
+      this.profileForm.markAllAsTouched();
+      return;
+
+    }
+    this.profilModifie.emit(
+      this.profileForm.value
+    );
+
   }
 
 }
